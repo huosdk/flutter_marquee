@@ -42,6 +42,9 @@ class FlutterMarquee extends StatefulWidget {
   ///点击事件回调
   ValueChanged<int> onChange;
 
+  ///滚动时的回调
+  ValueChanged<int> onRoll;
+
   FlutterMarquee(
       {this.children,
       this.texts,
@@ -53,6 +56,7 @@ class FlutterMarquee extends StatefulWidget {
       AnimationDirection animationDirection,
       this.animateDistance,
       this.onChange,
+      this.onRoll,
       bool singleLine})
       : assert(children != null || texts != null),
         assert(onChange != null),
@@ -77,6 +81,7 @@ class _FlutterMarquee extends State<FlutterMarquee> {
   List<FlutterMarqueeItem> items = <FlutterMarqueeItem>[];
   FlutterMarqueeItem firstItem;
   FlutterMarqueeItem secondItem;
+
   @override
   void initState() {
     super.initState();
@@ -121,6 +126,7 @@ class _FlutterMarquee extends State<FlutterMarquee> {
       _timer = Timer.periodic(Duration(seconds: widget.duration), (timer) {
         this.setState(() {
           currentPage++;
+
           if (currentPage >= items.length) {
             //last item
             currentPage = 0;
@@ -135,6 +141,8 @@ class _FlutterMarquee extends State<FlutterMarquee> {
             firstItem = items[currentPage - 1]..modeListener.value = true;
             secondItem = items[currentPage]..modeListener.value = false;
           }
+          if(widget.onRoll!=null)
+            widget.onRoll(currentPage);
         });
       });
     }
@@ -167,11 +175,10 @@ class _FlutterMarquee extends State<FlutterMarquee> {
           ];
 
     return ClipRect(
-        child: Center(
       child: Stack(
         children: items,
       ),
-    ));
+    );
   }
 
   @override

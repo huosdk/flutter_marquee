@@ -68,6 +68,9 @@ class _MyAppState extends State<MyApp> {
                         onChange: (i) {
                           print(i);
                         },
+                        onRoll:(i){
+                          print("roll:$i");
+                        },
                         animationDirection: AnimationDirection.t2b,
                         duration: 8),
                   )

@@ -123,28 +123,32 @@ class _FlutterMarquee extends State<FlutterMarquee> {
     // if (widget.datas != null && widget.datas.length == 1 ||
     // widget.texts.length == 1) {}
     if (widget.autoStart) {
-      _timer = Timer.periodic(Duration(seconds: widget.duration), (timer) {
-        this.setState(() {
-          currentPage++;
+      if(items.length>1)
+        {
+          _timer = Timer.periodic(Duration(seconds: widget.duration), (timer) {
+            this.setState(() {
+              currentPage++;
 
-          if (currentPage >= items.length) {
-            //last item
-            currentPage = 0;
-            firstItem = items[items.length - 1]..modeListener.value = true;
-            secondItem = items[currentPage]..modeListener.value = false;
-          } else if (currentPage <= 0) {
-            // first item
-            currentPage = items.length - 1;
-            firstItem = items[0]..modeListener.value = true;
-            secondItem = items[currentPage]..modeListener.value = false;
-          } else {
-            firstItem = items[currentPage - 1]..modeListener.value = true;
-            secondItem = items[currentPage]..modeListener.value = false;
-          }
-          if(widget.onRoll!=null)
-            widget.onRoll(currentPage);
-        });
-      });
+              if (currentPage >= items.length) {
+                //last item
+                currentPage = 0;
+                firstItem = items[items.length - 1]..modeListener.value = true;
+                secondItem = items[currentPage]..modeListener.value = false;
+              } else if (currentPage <= 0) {
+                // first item
+                currentPage = items.length - 1;
+                firstItem = items[0]..modeListener.value = true;
+                secondItem = items[currentPage]..modeListener.value = false;
+              } else {
+                firstItem = items[currentPage - 1]..modeListener.value = true;
+                secondItem = items[currentPage]..modeListener.value = false;
+              }
+              if(widget.onRoll!=null)
+                widget.onRoll(currentPage);
+            });
+          });
+        }
+
     }
   }
 

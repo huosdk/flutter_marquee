@@ -88,6 +88,7 @@ class _FlutterMarquee extends State<FlutterMarquee> {
     if (widget.texts != null) {
       for (var i = 0; i < widget.texts.length; i++) {
         items.add(new FlutterMarqueeItem(
+          key: UniqueKey(),
           child: Text(
             widget.texts[i],
           ),
@@ -100,10 +101,56 @@ class _FlutterMarquee extends State<FlutterMarquee> {
           animateDistance: widget.animateDistance,
           itemDuration: widget.itemDuration,
         ));
+        if (widget.texts.length == 1) {
+          items.add(new FlutterMarqueeItem(
+            key: UniqueKey(),
+            child: Text(
+              widget.texts[i],
+            ),
+            // text: widget.texts[i],
+            onPress: () {
+              widget.onChange(i);
+            },
+            singleLine: widget.singleLine,
+            animationDirection: widget.animationDirection,
+            animateDistance: widget.animateDistance,
+            itemDuration: widget.itemDuration,
+          ));
+          items.add(new FlutterMarqueeItem(
+            key: UniqueKey(),
+            child: Text(
+              widget.texts[i],
+            ),
+            // text: widget.texts[i],
+            onPress: () {
+              widget.onChange(i);
+            },
+            singleLine: widget.singleLine,
+            animationDirection: widget.animationDirection,
+            animateDistance: widget.animateDistance,
+            itemDuration: widget.itemDuration,
+          ));
+        } else if (widget.texts.length == 2 && i == 1) {
+          items.add(new FlutterMarqueeItem(
+            key: UniqueKey(),
+            child: Text(
+              widget.texts[0],
+            ),
+            // text: widget.texts[i],
+            onPress: () {
+              widget.onChange(2);
+            },
+            singleLine: widget.singleLine,
+            animationDirection: widget.animationDirection,
+            animateDistance: widget.animateDistance,
+            itemDuration: widget.itemDuration,
+          ));
+        }
       }
     } else {
       for (var i = 0; i < widget.children.length; i++) {
         items.add(new FlutterMarqueeItem(
+          key: UniqueKey(),
           child: widget.children[i],
           // text: widget.texts[i],
           onPress: () {
@@ -114,6 +161,45 @@ class _FlutterMarquee extends State<FlutterMarquee> {
           animateDistance: widget.animateDistance,
           itemDuration: widget.itemDuration,
         ));
+        if (widget.children.length == 1) {
+          items.add(new FlutterMarqueeItem(
+            key: UniqueKey(),
+            child: widget.children[i],
+            // text: widget.texts[i],
+            onPress: () {
+              widget.onChange(1);
+            },
+            singleLine: widget.singleLine,
+            animationDirection: widget.animationDirection,
+            animateDistance: widget.animateDistance,
+            itemDuration: widget.itemDuration,
+          ));
+          items.add(new FlutterMarqueeItem(
+            key: UniqueKey(),
+            child: widget.children[i],
+            // text: widget.texts[i],
+            onPress: () {
+              widget.onChange(2);
+            },
+            singleLine: widget.singleLine,
+            animationDirection: widget.animationDirection,
+            animateDistance: widget.animateDistance,
+            itemDuration: widget.itemDuration,
+          ));
+        } else if (widget.children.length == 2 && i == 1) {
+          items.add(new FlutterMarqueeItem(
+            key: UniqueKey(),
+            child: widget.children[0],
+            // text: widget.texts[i],
+            onPress: () {
+              widget.onChange(2);
+            },
+            singleLine: widget.singleLine,
+            animationDirection: widget.animationDirection,
+            animateDistance: widget.animateDistance,
+            itemDuration: widget.itemDuration,
+          ));
+        }
       }
     }
 

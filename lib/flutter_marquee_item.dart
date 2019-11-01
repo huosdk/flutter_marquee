@@ -171,7 +171,6 @@ class WalkthroughState extends State<FlutterMarqueeItem>
           child: Container(
             child: Text(
               widget.text,
-              softWrap: widget.singleLine,
               maxLines: 1,
               style:
                   TextStyle(fontSize: widget.textSize, color: widget.textColor),

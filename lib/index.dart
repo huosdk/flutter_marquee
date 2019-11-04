@@ -167,7 +167,7 @@ class _FlutterMarquee extends State<FlutterMarquee> {
             child: widget.children[i],
             // text: widget.texts[i],
             onPress: () {
-              widget.onChange(1);
+              widget.onChange(i);
             },
             singleLine: widget.singleLine,
             animationDirection: widget.animationDirection,
@@ -179,7 +179,7 @@ class _FlutterMarquee extends State<FlutterMarquee> {
             child: widget.children[i],
             // text: widget.texts[i],
             onPress: () {
-              widget.onChange(2);
+              widget.onChange(i);
             },
             singleLine: widget.singleLine,
             animationDirection: widget.animationDirection,
@@ -192,7 +192,7 @@ class _FlutterMarquee extends State<FlutterMarquee> {
             child: widget.children[0],
             // text: widget.texts[i],
             onPress: () {
-              widget.onChange(2);
+              widget.onChange(0);
             },
             singleLine: widget.singleLine,
             animationDirection: widget.animationDirection,

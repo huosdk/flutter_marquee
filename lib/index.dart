@@ -7,10 +7,10 @@ typedef Widget WidgetMaker<T>(BuildContext context, T item);
 
 class FlutterMarquee extends StatefulWidget {
   /// 跑马灯的具体类容
-  final List<Widget> children;
+  final List<Widget>? children;
 
   ///  text 的具体内容
-  final List<String> texts;
+  final List<String>? texts;
 
   /// 当前正在跑的文字的颜色
   /// 只在texts有值时生效
@@ -34,7 +34,7 @@ class FlutterMarquee extends StatefulWidget {
 
   ///移动的距离
   ///如果没有设置就是默认获取组件宽高，横向动画就是组建的宽度，纵向的就是组件的高度
-  final double animateDistance;
+  final double? animateDistance;
 
   ///是否是单行显示
   final bool singleLine;
@@ -43,25 +43,25 @@ class FlutterMarquee extends StatefulWidget {
   ValueChanged<int> onChange;
 
   ///滚动时的回调
-  ValueChanged<int> onRoll;
+  ValueChanged<int>? onRoll;
 
   FlutterMarquee(
       {this.children,
       this.texts,
-      Color seletedTextColor,
-      Color textColor,
-      int duration,
-      double itemDuration,
-      bool autoStart,
-      AnimationDirection animationDirection,
+      Color? seletedTextColor,
+      Color? textColor,
+      int? duration,
+      double? itemDuration,
+      bool? autoStart,
+      AnimationDirection? animationDirection,
       this.animateDistance,
-      this.onChange,
+      required this.onChange,
       this.onRoll,
-      bool singleLine})
+      bool? singleLine})
       : assert(children != null || texts != null),
         assert(onChange != null),
         this.duration = duration ?? 4,
-        this.itemDuration = itemDuration ?? 500,
+        this.itemDuration = itemDuration as int? ?? 500,
         this.autoStart = autoStart ?? true,
         this.singleLine = singleLine ?? true,
         this.textColor = textColor ?? Colors.black,
@@ -75,22 +75,22 @@ class FlutterMarquee extends StatefulWidget {
 }
 
 class _FlutterMarquee extends State<FlutterMarquee> {
-  Timer _timer; // 定时器timer
+  Timer? _timer; // 定时器timer
   int currentPage = 0;
   bool lastPage = false;
   List<FlutterMarqueeItem> items = <FlutterMarqueeItem>[];
-  FlutterMarqueeItem firstItem;
-  FlutterMarqueeItem secondItem;
+  FlutterMarqueeItem? firstItem;
+  FlutterMarqueeItem? secondItem;
 
   @override
   void initState() {
     super.initState();
     if (widget.texts != null) {
-      for (var i = 0; i < widget.texts.length; i++) {
+      for (var i = 0; i < widget.texts!.length; i++) {
         items.add(new FlutterMarqueeItem(
           key: UniqueKey(),
           child: Text(
-            widget.texts[i],
+            widget.texts![i],
           ),
           // text: widget.texts[i],
           onPress: () {
@@ -101,11 +101,11 @@ class _FlutterMarquee extends State<FlutterMarquee> {
           animateDistance: widget.animateDistance,
           itemDuration: widget.itemDuration,
         ));
-        if (widget.texts.length == 1) {
+        if (widget.texts!.length == 1) {
           items.add(new FlutterMarqueeItem(
             key: UniqueKey(),
             child: Text(
-              widget.texts[i],
+              widget.texts![i],
             ),
             // text: widget.texts[i],
             onPress: () {
@@ -119,7 +119,7 @@ class _FlutterMarquee extends State<FlutterMarquee> {
           items.add(new FlutterMarqueeItem(
             key: UniqueKey(),
             child: Text(
-              widget.texts[i],
+              widget.texts![i],
             ),
             // text: widget.texts[i],
             onPress: () {
@@ -130,11 +130,11 @@ class _FlutterMarquee extends State<FlutterMarquee> {
             animateDistance: widget.animateDistance,
             itemDuration: widget.itemDuration,
           ));
-        } else if (widget.texts.length == 2 && i == 1) {
+        } else if (widget.texts!.length == 2 && i == 1) {
           items.add(new FlutterMarqueeItem(
             key: UniqueKey(),
             child: Text(
-              widget.texts[0],
+              widget.texts![0],
             ),
             // text: widget.texts[i],
             onPress: () {
@@ -148,10 +148,10 @@ class _FlutterMarquee extends State<FlutterMarquee> {
         }
       }
     } else {
-      for (var i = 0; i < widget.children.length; i++) {
+      for (var i = 0; i < widget.children!.length; i++) {
         items.add(new FlutterMarqueeItem(
           key: UniqueKey(),
-          child: widget.children[i],
+          child: widget.children![i],
           // text: widget.texts[i],
           onPress: () {
             widget.onChange(i);
@@ -161,10 +161,10 @@ class _FlutterMarquee extends State<FlutterMarquee> {
           animateDistance: widget.animateDistance,
           itemDuration: widget.itemDuration,
         ));
-        if (widget.children.length == 1) {
+        if (widget.children!.length == 1) {
           items.add(new FlutterMarqueeItem(
             key: UniqueKey(),
-            child: widget.children[i],
+            child: widget.children![i],
             // text: widget.texts[i],
             onPress: () {
               widget.onChange(i);
@@ -176,7 +176,7 @@ class _FlutterMarquee extends State<FlutterMarquee> {
           ));
           items.add(new FlutterMarqueeItem(
             key: UniqueKey(),
-            child: widget.children[i],
+            child: widget.children![i],
             // text: widget.texts[i],
             onPress: () {
               widget.onChange(i);
@@ -186,10 +186,10 @@ class _FlutterMarquee extends State<FlutterMarquee> {
             animateDistance: widget.animateDistance,
             itemDuration: widget.itemDuration,
           ));
-        } else if (widget.children.length == 2 && i == 1) {
+        } else if (widget.children!.length == 2 && i == 1) {
           items.add(new FlutterMarqueeItem(
             key: UniqueKey(),
-            child: widget.children[0],
+            child: widget.children![0],
             // text: widget.texts[i],
             onPress: () {
               widget.onChange(0);
@@ -230,7 +230,7 @@ class _FlutterMarquee extends State<FlutterMarquee> {
                 secondItem = items[currentPage]..modeListener.value = false;
               }
               if(widget.onRoll!=null)
-                widget.onRoll(currentPage);
+                widget.onRoll!(currentPage);
             });
           });
         }
@@ -245,28 +245,28 @@ class _FlutterMarquee extends State<FlutterMarquee> {
       if (widget.animationDirection == AnimationDirection.l2r ||
           widget.animationDirection == AnimationDirection.l2r) {
         double width = MediaQuery.of(context).size.width;
-        firstItem.animateDistance = width;
+        firstItem!.animateDistance = width;
         if (secondItem != null) {
-          secondItem.animateDistance = width;
+          secondItem!.animateDistance = width;
         }
       } else {
         double height = MediaQuery.of(context).size.height;
-        firstItem.animateDistance = height;
+        firstItem!.animateDistance = height;
         if (secondItem != null) {
-          secondItem.animateDistance = height;
+          secondItem!.animateDistance = height;
         }
       }
     }
-    List<FlutterMarqueeItem> items = secondItem == null
-        ? <FlutterMarqueeItem>[firstItem..textColor = widget.seletedTextColor]
-        : <FlutterMarqueeItem>[
-            secondItem..textColor = widget.seletedTextColor,
-            firstItem..textColor = widget.textColor
+    List<FlutterMarqueeItem?> items = secondItem == null
+        ? <FlutterMarqueeItem?>[firstItem!..textColor = widget.seletedTextColor]
+        : <FlutterMarqueeItem?>[
+            secondItem!..textColor = widget.seletedTextColor,
+            firstItem!..textColor = widget.textColor
           ];
 
     return ClipRect(
       child: Stack(
-        children: items,
+        children: items as List<Widget>,
       ),
     );
   }
@@ -274,7 +274,7 @@ class _FlutterMarquee extends State<FlutterMarquee> {
   @override
   void dispose() {
     if (_timer != null) {
-      _timer.cancel();
+      _timer!.cancel();
     }
     super.dispose();
   }

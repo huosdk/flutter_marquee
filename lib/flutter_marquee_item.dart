@@ -5,7 +5,7 @@ class FlutterMarqueeItem extends StatefulWidget {
   Key key;
 
   ///这是text的具体内容
-  String text;
+  String? text;
 
   ///文字的颜色
   Color textColor;
@@ -14,20 +14,20 @@ class FlutterMarqueeItem extends StatefulWidget {
   double textSize;
 
   ///如果没有文字，也可以自定义内容
-  Widget child;
+  Widget? child;
 
   ///这个是为了监听值变化来刷新页面的，否则页面的state只会初始化一遍
   ///必须指定，否则不会执行动画，或者动画只执行一次
   ValueNotifier<bool> modeListener;
 
   ///按钮事件
-  VoidCallback onPress;
+  VoidCallback? onPress;
 
   ///动画的方向
   AnimationDirection animationDirection;
 
   ///移动的距离
-  double animateDistance;
+  double? animateDistance;
 
   /// 跑马灯的切换时长 默认是500毫秒
   int itemDuration;
@@ -40,17 +40,17 @@ class FlutterMarqueeItem extends StatefulWidget {
   set mode(bool mode) => this.modeListener.value = mode;
 
   FlutterMarqueeItem({
-    Key key, //必须传key，否则动画只会走一次
+    Key? key, //必须传key，否则动画只会走一次
     this.text,
-    Color textColor,
-    double textSize,
-    ValueNotifier<bool> modeListener,
-    AnimationDirection animationDirection,
+    Color? textColor,
+    double? textSize,
+    ValueNotifier<bool>? modeListener,
+    AnimationDirection? animationDirection,
     this.onPress,
     this.animateDistance,
-    int itemDuration,
+    int? itemDuration,
     this.child,
-    bool singleLine,
+    required bool singleLine,
   })  :
         // assert(modeListener != null),
         this.modeListener = modeListener ?? ValueNotifier(false),
@@ -70,13 +70,13 @@ class FlutterMarqueeItem extends StatefulWidget {
 
 class WalkthroughState extends State<FlutterMarqueeItem>
     with SingleTickerProviderStateMixin {
-  Animation animation;
-  Animation transformAnimation;
-  AnimationController animationController;
+  Animation? animation;
+  late Animation transformAnimation;
+  late AnimationController animationController;
 
-  Function _updateListener;
-  Tween inTween;
-  Tween outTween;
+  late Function _updateListener;
+  late Tween inTween;
+  late Tween outTween;
 
   ///是否是x轴移动
   bool isXAniamation = false;
@@ -86,29 +86,29 @@ class WalkthroughState extends State<FlutterMarqueeItem>
     super.initState();
     switch (widget.animationDirection) {
       case AnimationDirection.t2b:
-        inTween = Tween(begin: -widget.animateDistance, end: 0.0);
+        inTween = Tween(begin: -widget.animateDistance!, end: 0.0);
         outTween = Tween(begin: 0.0, end: widget.animateDistance);
         isXAniamation = false;
         break;
       case AnimationDirection.b2t:
         inTween = Tween(begin: widget.animateDistance, end: 0.0);
-        outTween = Tween(begin: 0.0, end: -widget.animateDistance);
+        outTween = Tween(begin: 0.0, end: -widget.animateDistance!);
         isXAniamation = false;
         break;
       case AnimationDirection.l2r:
-        inTween = Tween(begin: -widget.animateDistance, end: 0.0);
+        inTween = Tween(begin: -widget.animateDistance!, end: 0.0);
         outTween = Tween(begin: 0.0, end: widget.animateDistance);
         isXAniamation = true;
         break;
 
       case AnimationDirection.r2l:
         inTween = Tween(begin: widget.animateDistance, end: 0.0);
-        outTween = Tween(begin: 0.0, end: -widget.animateDistance);
+        outTween = Tween(begin: 0.0, end: -widget.animateDistance!);
         isXAniamation = true;
         break;
       default:
         inTween = Tween(begin: widget.animateDistance, end: 0.0);
-        outTween = Tween(begin: 0.0, end: -widget.animateDistance);
+        outTween = Tween(begin: 0.0, end: -widget.animateDistance!);
         isXAniamation = false;
         break;
     }
@@ -123,7 +123,7 @@ class WalkthroughState extends State<FlutterMarqueeItem>
         }
       });
     };
-    widget.modeListener.addListener(_updateListener);
+    widget.modeListener.addListener(_updateListener as void Function());
 
     animationController = AnimationController(
         vsync: this, duration: Duration(milliseconds: widget.itemDuration))
@@ -138,7 +138,7 @@ class WalkthroughState extends State<FlutterMarqueeItem>
 
   @override
   void dispose() {
-    widget.modeListener.removeListener(_updateListener);
+    widget.modeListener.removeListener(_updateListener as void Function());
     animationController.dispose();
     super.dispose();
   }
@@ -170,7 +170,7 @@ class WalkthroughState extends State<FlutterMarqueeItem>
           onTap: widget.onPress,
           child: Container(
             child: Text(
-              widget.text,
+              widget.text!,
               maxLines: 1,
               style:
                   TextStyle(fontSize: widget.textSize, color: widget.textColor),

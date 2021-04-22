@@ -50,7 +50,7 @@ class FlutterMarqueeItem extends StatefulWidget {
     this.animateDistance,
     int? itemDuration,
     this.child,
-    required bool singleLine,
+    required bool? singleLine,
   })  :
         // assert(modeListener != null),
         this.modeListener = modeListener ?? ValueNotifier(false),
@@ -59,7 +59,7 @@ class FlutterMarqueeItem extends StatefulWidget {
         this.animationDirection = animationDirection ?? AnimationDirection.b2t,
         this.itemDuration = itemDuration ?? 500,
         this.key = key ?? GlobalKey(),
-        this.singleLine = !singleLine ?? true,
+        this.singleLine = singleLine ?? true,
         super(key: key);
 
   @override
